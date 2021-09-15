@@ -86,6 +86,14 @@ app.post("/register", (req, res) => {
   for (let i = 0; i < 6; i++) {
     temp += generateRandomString();
   }
+
+  if (!req.body.email) return res.status(400).send("empty email");
+  if (!req.body.password) return res.status(400).send("empty password");
+
+  for (const u in user) {
+    if (user[u].email === req.body.email) return res.status(400).send(`${user[u].email} already exists`);
+  }
+
   user[temp] = {
     id: temp,
     email: req.body.email,
