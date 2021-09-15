@@ -15,6 +15,8 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+const user = {};
+
 
 app.get("/", (req, res) => {
   res.redirect(`/urls`);
@@ -61,12 +63,35 @@ app.post("/urls/:shortURL", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  res.cookie("username", req.body.username);
+  if (req.body.username === user[req.cookies["userID"]].email) {
+    res.cookie("username", req.body.username);
+  }
   res.redirect("/urls");
 });
 
 app.post("/logout", (req, res) => {
   res.clearCookie("username");
+  res.redirect("/urls");
+});
+
+app.get("/register", (req, res) => {
+  const templateVars = {
+    username: req.cookies["username"],
+  };
+  res.render("register", templateVars);
+});
+
+app.post("/register", (req, res) => {
+  let temp = "";
+  for (let i = 0; i < 6; i++) {
+    temp += generateRandomString();
+  }
+  user[temp] = {
+    id: temp,
+    email: req.body.email,
+    password: req.body.password
+  };
+  res.cookie("userID", user[temp].id);
   res.redirect("/urls");
 });
 
