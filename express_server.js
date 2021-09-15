@@ -62,11 +62,25 @@ app.post("/urls/:shortURL", (req, res) => {
   res.redirect("/urls");
 });
 
+app.get("/login", (req, res) => {
+  const templateVars = {
+    username: req.cookies["username"],
+  };
+  res.render("login", templateVars);
+});
+
 app.post("/login", (req, res) => {
-  if (req.body.username === user[req.cookies["userID"]].email) {
-    res.cookie("username", req.body.username);
+  for (const u in user) {
+    if (user[u].email === req.body.email) {
+      if (user[u].password === req.body.password) {
+        res.cookie("username", req.body.email);
+        return res.redirect("/urls");
+      } else {
+        return res.status(400).send("Wrong password");
+      }
+    }
   }
-  res.redirect("/urls");
+  return res.status(400).send(`${req.body.email} does not exist`);
 });
 
 app.post("/logout", (req, res) => {
