@@ -4,6 +4,7 @@ const { generateRandomString, urlsForUser } = require("./helper");
 const PORT = 8080;
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -15,7 +16,7 @@ const urlDatabase = {
   "9sm5xK": { longURL: "http://www.google.com", user_id: "b2xV22"}
 };
 
-const user = { "b2xV22": { id: "b2xV22", email: "test@gmail.com", password: "1234" }};
+const user = { "b2xV22": { id: "b2xV22", email: "test@gmail.com", password: bcrypt.hashSync("1234", 10) }};
 
 const templateVars = {
   urlDatabase: "",
@@ -85,7 +86,7 @@ app.get("/login", (req, res) => {
 app.post("/login", (req, res) => {
   for (const u in user) {
     if (user[u].email === req.body.email) {
-      if (user[u].password === req.body.password) {
+      if (bcrypt.compareSync(req.body.password, user[u].password)) {
         res.cookie("user_id", user[u].id);
         return res.redirect("/urls");
       } else {
@@ -124,7 +125,7 @@ app.post("/register", (req, res) => {
   user[temp] = {
     id: temp,
     email: req.body.email,
-    password: req.body.password
+    password: bcrypt.hashSync(req.body.password, 10)
   };
   res.redirect("/urls");
 });
