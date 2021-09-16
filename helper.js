@@ -7,4 +7,14 @@ const generateRandomString = () => {
   return checkASCII(Math.floor(Math.random() * 100));
 };
 
-module.exports = { generateRandomString };
+const urlsForUser = (id, urls) => {
+  const newUrls = {};
+  for (const [key, value] of Object.entries(urls)) {
+    if (value.user_id === id) {
+      newUrls[key] = value.longURL;
+    }
+  }
+  return newUrls;
+};
+
+module.exports = { generateRandomString, urlsForUser };
