@@ -4,10 +4,8 @@ Tinyapp is a URL shortening website. While it is a prototype and only works on a
 
 ## Final Product
 
-## Final Product
-
-!["Screenshot of URLs page"](https://github.com/chris-cho/tinyapp/tree/master/docs/urls.png)
-!["Screenshot of register page"](https://github.com/chris-cho/tinyapp/tree/master/docs/register.png)
+!["Screenshot of URLs page"](https://github.com/chris-cho/tinyapp/blob/master/docs/urls.png)
+!["Screenshot of register page"](https://github.com/chris-cho/tinyapp/blob/master/docs/register.png)
 
 ## Dependencies
 - Node.js
