@@ -17,4 +17,10 @@ const urlsForUser = (id, urls) => {
   return newUrls;
 };
 
-module.exports = { generateRandomString, urlsForUser };
+const getUserByEmail = (email, user) => {
+  for (const u in user) {
+    if (user[u].email === email) return user[u];
+  }
+};
+
+module.exports = { generateRandomString, urlsForUser, getUserByEmail };
